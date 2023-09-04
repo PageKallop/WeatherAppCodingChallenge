@@ -93,6 +93,15 @@
 			path = WeatherDataModel;
 			sourceTree = "<group>";
 		};
+		C0300EF32AA69B9100C7628B /* HomeWeatherViews */ = {
+			isa = PBXGroup;
+			children = (
+				C0779D252AA246650072AC6D /* SearchTempView.swift */,
+				C0C32B4D2AA5377500210E73 /* CurrentWeatherView.swift */,
+			);
+			path = HomeWeatherViews;
+			sourceTree = "<group>";
+		};
 		C0779CE82AA23BDA0072AC6D = {
 			isa = PBXGroup;
 			children = (
@@ -141,8 +150,7 @@
 			children = (
 				C0779CF82AA23BDA0072AC6D /* HomeWeatherViewController.swift */,
 				C0DDF9D92AA3A27200196BA6 /* HomeWeatherViewModel.swift */,
-				C0779D252AA246650072AC6D /* SearchTempView.swift */,
-				C0C32B4D2AA5377500210E73 /* CurrentWeatherView.swift */,
+				C0300EF32AA69B9100C7628B /* HomeWeatherViews */,
 			);
 			path = HomeTemp;
 			sourceTree = "<group>";
