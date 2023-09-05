@@ -10,7 +10,7 @@ protocol WeatherManagerDelegate {
 
 class HomeWeatherViewModel {
   var delegate: WeatherManagerDelegate?
-
+// api key in .gitignore file
   let localWeatherURL = "https://api.openweathermap.org/data/2.5/weather?&appid=\(WeatherConstants.shared.apiKey)&units=imperial&lat=41.881832&lon=-87.623177"
   
   let searchedWeather = "https://api.openweathermap.org/data/2.5/weather?&appid=\(WeatherConstants.shared.apiKey)&units=imperial&q="
