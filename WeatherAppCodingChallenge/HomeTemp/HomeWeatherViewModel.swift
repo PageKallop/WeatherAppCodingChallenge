@@ -33,7 +33,7 @@ class HomeWeatherViewModel {
       let session = URLSession(configuration: .default)
       let task = session.dataTask(with: url) { (data, responce, error) in
         if let error = error {
-          print("THIS IS THE ERROR \(error)")
+          print("ERROR GETTING SEARCHED WEATHER \(error)")
           return
         }
         if let safeData = data {
@@ -52,7 +52,7 @@ class HomeWeatherViewModel {
       let session = URLSession(configuration: .default)
       let task = session.dataTask(with: url) { (data, responce, error) in
         if let error = error {
-          print("THIS IS THE ERROR \(error)")
+          print("ERROR GETTING LOCAL WEATHER \(error)")
           return
         }
         if let safeData = data {
@@ -88,7 +88,7 @@ class HomeWeatherViewModel {
       return weather
       
     } catch {
-      print(error)
+      print("ERROR WITH PARSE DATA \(error)")
       return nil
     }
   }
@@ -98,7 +98,7 @@ class HomeWeatherViewModel {
     let session = URLSession(configuration: .default)
     let task = session.dataTask(with: url) { (data, response, error) in
       if error != nil {
-        print("Error: \(error!)")
+        print("Error DOWNLOADING IMAGE \(error!)")
         completion(nil)
         return
       }

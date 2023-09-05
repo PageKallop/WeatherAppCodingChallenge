@@ -38,7 +38,6 @@ class HomeWeatherViewController: UIViewController, WeatherManagerDelegate {
   override func viewWillDisappear(_ animated: Bool) {
     super.viewWillDisappear(animated)
     defaults.set(lastSearchedCity, forKey: "City")
-    print(lastSearchedCity)
   }
   
   func setDelegates() {
