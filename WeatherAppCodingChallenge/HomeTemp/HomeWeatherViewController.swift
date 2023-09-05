@@ -21,7 +21,7 @@ class HomeWeatherViewController: UIViewController, WeatherManagerDelegate {
     super.init(nibName: nil, bundle: nil)
     checkForLastCity()
   }
-
+  
   required init?(coder: NSCoder) {
     fatalError("init(coder:) has not been implemented")
   }
@@ -30,18 +30,21 @@ class HomeWeatherViewController: UIViewController, WeatherManagerDelegate {
     super.viewDidLoad()
     setConstraints()
     setElements()
-    view.backgroundColor = .lightGray
-    locationManager.delegate = self
+    setDelegates()
     locationManager.requestWhenInUseAuthorization()
     locationManager.startUpdatingLocation()
-    viewModel.delegate = self
-    searchField.delegate = self
   }
-
+  
   override func viewWillDisappear(_ animated: Bool) {
     super.viewWillDisappear(animated)
     defaults.set(lastSearchedCity, forKey: "City")
     print(lastSearchedCity)
+  }
+  
+  func setDelegates() {
+    locationManager.delegate = self
+    viewModel.delegate = self
+    searchField.delegate = self
   }
   
   func setConstraints() {
@@ -61,7 +64,7 @@ class HomeWeatherViewController: UIViewController, WeatherManagerDelegate {
     tempHeader.translatesAutoresizingMaskIntoConstraints = false
     tempHeader.centerXAnchor.constraint(equalTo: view.safeAreaLayoutGuide.centerXAnchor).isActive = true
     tempHeader.heightAnchor.constraint(equalToConstant: 200).isActive = true
-  
+    
     horizontalStackView.translatesAutoresizingMaskIntoConstraints = false
     horizontalStackView.centerXAnchor.constraint(equalTo: view.safeAreaLayoutGuide.centerXAnchor).isActive = true
     horizontalStackView.bottomAnchor.constraint(equalTo: view.keyboardLayoutGuide.topAnchor, constant: -5).isActive = true
@@ -75,16 +78,16 @@ class HomeWeatherViewController: UIViewController, WeatherManagerDelegate {
   
   
   func setElements() {
-    
+    view.backgroundColor = .lightGray
     horizontalStackView.axis = .horizontal
     horizontalStackView.alignment = .center
     horizontalStackView.spacing = 5
-
+    
     searchField.backgroundColor = .white
     searchField.becomeFirstResponder()
     searchField.layer.cornerRadius = 8
     updateTextFieldTextColor()
-
+    
     searchButton.backgroundColor = .gray
     searchButton.layer.cornerRadius = 8
     searchButton.setTitle(NSLocalizedString("Search", comment: ""), for: .normal)
@@ -121,7 +124,7 @@ class HomeWeatherViewController: UIViewController, WeatherManagerDelegate {
       }
     }
   }
-
+  
   func checkForLastCity() {
     let launchCity = defaults.object(forKey: "City") as? String
     if launchCity?.isEmpty == true {
@@ -135,7 +138,7 @@ class HomeWeatherViewController: UIViewController, WeatherManagerDelegate {
 
 // MARK: Set TextField Delegates
 extension HomeWeatherViewController: UITextFieldDelegate {
-
+  
   @objc func searchPressed(_ sender: UIButton) {
     searchField.endEditing(true)
     
@@ -154,14 +157,14 @@ extension HomeWeatherViewController: UITextFieldDelegate {
       return false
     }
   }
-
+  
   func textFieldDidEndEditing(_ textField: UITextField) {
     let cityName = searchField.text
     let city = cityName!.trimmingCharacters(in: .whitespaces).replacingOccurrences(of: " ", with: "%20")
     viewModel.searchWeather(cityName: city)
     searchField.text = ""
   }
-
+  
   override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
     view.endEditing(true)
   }
@@ -169,7 +172,7 @@ extension HomeWeatherViewController: UITextFieldDelegate {
 
 // MARK: Set Location Manager
 extension HomeWeatherViewController: CLLocationManagerDelegate {
-
+  
   func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
     if let location = locations.first {
       
@@ -195,11 +198,11 @@ extension HomeWeatherViewController {
     }
   }
   func updateTextFieldTextColor() {
-      if traitCollection.userInterfaceStyle == .dark {
-          searchField.textColor = UIColor.black
-      } else {
-        searchField.textColor = UIColor.black
-      }
+    if traitCollection.userInterfaceStyle == .dark {
+      searchField.textColor = UIColor.black
+    } else {
+      searchField.textColor = UIColor.black
+    }
   }
 }
 

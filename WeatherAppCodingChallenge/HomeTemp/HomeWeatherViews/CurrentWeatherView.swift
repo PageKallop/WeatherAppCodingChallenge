@@ -3,11 +3,11 @@ import UIKit
 
 class CurrentWeatherView: UIView {
   
-  let titleLable = UILabel()
-  let currentWeatherStackView = UIStackView()
+  private let titleLable = UILabel()
+  private let currentWeatherStackView = UIStackView()
+  private let currentTemp = UILabel()
+  private let feelsLiketemp = UILabel()
   let weatherImage = UIImageView()
-  let currentTemp = UILabel()
-  let feelsLiketemp = UILabel()
   
   override init(frame: CGRect) {
     super.init(frame: frame)

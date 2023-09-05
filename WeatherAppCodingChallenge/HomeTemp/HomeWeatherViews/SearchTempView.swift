@@ -3,14 +3,14 @@ import UIKit
 
 class SearchTempView: UIView {
   
-  let locationTitle = UILabel()
-  let tempLabel = UILabel()
+  private let locationTitle = UILabel()
+  private let tempLabel = UILabel()
+  private let descriptionLabel = UILabel()
+  private let horizontalStackView = UIStackView()
+  private let lowTemp = UILabel()
+  private let highTemp = UILabel()
+  private let explanationLabel = UILabel()
   let weatherImage = UIImageView()
-  let descriptionLabel = UILabel()
-  let horizontalStackView = UIStackView()
-  let lowTemp = UILabel()
-  let highTemp = UILabel()
-  let explanationLabel = UILabel()
   
   override init(frame: CGRect) {
     super.init(frame: frame)
