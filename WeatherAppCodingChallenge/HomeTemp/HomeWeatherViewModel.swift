@@ -3,15 +3,15 @@ import CoreLocation
 import UIKit
 
 protocol WeatherManagerDelegate {
-  func didUpdateWeather(_ weatherManager: HomeWeatherViewModel, weather: WeatherModel)
-  func updateLocalWeather(_ weatherManager: HomeWeatherViewModel, weather: WeatherModel)
+  func didUpdateWeather(weather: WeatherModel)
+  func updateLocalWeather(weather: WeatherModel)
 }
 
 
 class HomeWeatherViewModel {
   var delegate: WeatherManagerDelegate?
 // api key in .gitignore file
-  let localWeatherURL = "https://api.openweathermap.org/data/2.5/weather?&appid=\(WeatherConstants.shared.apiKey)&units=imperial&lat=41.881832&lon=-87.623177"
+  let localWeatherURL = "https://api.openweathermap.org/data/2.5/weather?&appid=\(WeatherConstants.shared.apiKey)&units=imperial&"
   
   let searchedWeather = "https://api.openweathermap.org/data/2.5/weather?&appid=\(WeatherConstants.shared.apiKey)&units=imperial&q="
   
@@ -38,7 +38,7 @@ class HomeWeatherViewModel {
         }
         if let safeData = data {
           if let weather = self.parseJSON(safeData) {
-            self.delegate?.didUpdateWeather(self, weather: weather)
+            self.delegate?.didUpdateWeather(weather: weather)
           }
         }
       }
@@ -57,7 +57,7 @@ class HomeWeatherViewModel {
         }
         if let safeData = data {
           if let weather = self.parseJSON(safeData) {
-            self.delegate?.updateLocalWeather(self, weather: weather)
+            self.delegate?.updateLocalWeather(weather: weather)
           }
         }
       }

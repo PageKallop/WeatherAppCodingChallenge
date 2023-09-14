@@ -14,8 +14,8 @@ class HomeWeatherViewController: UIViewController, WeatherManagerDelegate {
   let searchField = UITextField()
   let searchButton = UIButton()
   var lastSearchedCity = ""
-  let cellID = "cellID"
-  
+
+
   init(viewModel: HomeWeatherViewModel) {
     self.viewModel = viewModel
     super.init(nibName: nil, bundle: nil)
@@ -91,9 +91,11 @@ class HomeWeatherViewController: UIViewController, WeatherManagerDelegate {
     searchButton.layer.cornerRadius = 8
     searchButton.setTitle(NSLocalizedString("Search", comment: ""), for: .normal)
     searchButton.addTarget(self, action: #selector(searchPressed), for: .touchUpInside)
+    
+
   }
   
-  func didUpdateWeather(_ weatherManager: HomeWeatherViewModel, weather: WeatherModel) {
+  func didUpdateWeather(weather: WeatherModel) {
     lastSearchedCity = weather.cityName
     viewModel.downloadImage(from: weather.iconUrl) { image in
       if let image = image {
@@ -109,7 +111,7 @@ class HomeWeatherViewController: UIViewController, WeatherManagerDelegate {
     }
   }
   
-  func updateLocalWeather(_ weatherManager: HomeWeatherViewModel, weather: WeatherModel) {
+  func updateLocalWeather(weather: WeatherModel) {
     viewModel.downloadImage(from: weather.iconUrl) { image in
       if let image = image {
         DispatchQueue.main.async {
@@ -124,6 +126,7 @@ class HomeWeatherViewController: UIViewController, WeatherManagerDelegate {
     }
   }
   
+  
   func checkForLastCity() {
     let launchCity = defaults.object(forKey: "City") as? String
     if launchCity?.isEmpty == true {
@@ -137,7 +140,7 @@ class HomeWeatherViewController: UIViewController, WeatherManagerDelegate {
 
 // MARK: Set TextField Delegates
 extension HomeWeatherViewController: UITextFieldDelegate {
-  
+
   @objc func searchPressed(_ sender: UIButton) {
     searchField.endEditing(true)
     
