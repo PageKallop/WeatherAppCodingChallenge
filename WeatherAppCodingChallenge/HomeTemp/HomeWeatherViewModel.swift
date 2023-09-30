@@ -5,6 +5,8 @@ import UIKit
 protocol WeatherManagerDelegate {
   func didUpdateWeather(weather: WeatherModel)
   func updateLocalWeather(weather: WeatherModel)
+  func handleSearchedWeatherError()
+  func handleLocalWeatherError()
 }
 
 
@@ -28,41 +30,42 @@ class HomeWeatherViewModel {
   }
   
   func getWeather(with urlString: String) {
-    
-    if let url = URL(string: urlString) {
-      let session = URLSession(configuration: .default)
-      let task = session.dataTask(with: url) { (data, responce, error) in
-        if let error = error {
-          print("ERROR GETTING SEARCHED WEATHER \(error)")
-          return
-        }
-        if let safeData = data {
-          if let weather = self.parseJSON(safeData) {
-            self.delegate?.didUpdateWeather(weather: weather)
-          }
+    guard let url = URL(string: urlString) else { return }
+    getTheWeather(urlString: url) { data in
+      if let safeData = data {
+        if let weather = self.parseJSON(safeData) {
+          self.delegate?.didUpdateWeather(weather: weather)
+        } else {
+          self.delegate?.handleLocalWeatherError()
         }
       }
-      task.resume()
     }
   }
 
   func getLocalWeather(with urlString: String) {
-    
-    if let url = URL(string: urlString) {
-      let session = URLSession(configuration: .default)
-      let task = session.dataTask(with: url) { (data, responce, error) in
-        if let error = error {
-          print("ERROR GETTING LOCAL WEATHER \(error)")
-          return
-        }
-        if let safeData = data {
-          if let weather = self.parseJSON(safeData) {
-            self.delegate?.updateLocalWeather(weather: weather)
-          }
-        }
+    guard let url = URL(string: urlString) else { return }
+    getTheWeather(urlString: url) { weatherData in
+      guard let weatherData = weatherData else { return }
+      if let weather = self.parseJSON(weatherData) {
+        self.delegate?.updateLocalWeather(weather: weather)
+      } else {
+        self.delegate?.handleSearchedWeatherError()
       }
-      task.resume()
     }
+  }
+  
+  func getTheWeather(urlString: URL, completionHandler: @escaping (_ data: Data?) -> ()) {
+    let session = URLSession(configuration: .default)
+    let task = session.dataTask(with: urlString) { data, responce, error in
+      if let error = error {
+        print("ERROR GETTING LOCAL WEATHER \(error)")
+        completionHandler(nil)
+        return
+      } else if let data = data {
+        completionHandler(data)
+      }
+    }
+    task.resume()
   }
   
   func parseJSON(_ weatherData: Data) -> WeatherModel? {

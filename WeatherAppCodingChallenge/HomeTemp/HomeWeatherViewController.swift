@@ -126,6 +126,17 @@ class HomeWeatherViewController: UIViewController, WeatherManagerDelegate {
     }
   }
   
+  func handleLocalWeatherError() {
+    DispatchQueue.main.async {
+      self.searchField.placeholder = "Error searching for a city"
+    }
+  }
+
+  func handleSearchedWeatherError() {
+    DispatchQueue.main.async {
+      self.currentWeatherView.titleLable.text = "Error getting local weather"
+    }
+  }
   
   func checkForLastCity() {
     let launchCity = defaults.object(forKey: "City") as? String

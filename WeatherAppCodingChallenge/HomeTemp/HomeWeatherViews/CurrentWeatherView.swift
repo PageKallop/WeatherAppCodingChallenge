@@ -3,7 +3,7 @@ import UIKit
 
 class CurrentWeatherView: UIView {
   
-  private let titleLable = UILabel()
+  let titleLable = UILabel()
   private let currentWeatherStackView = UIStackView()
   private let currentTemp = UILabel()
   private let feelsLiketemp = UILabel()
